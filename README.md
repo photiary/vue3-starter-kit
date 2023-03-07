@@ -40,6 +40,10 @@ npm run test:unit
 npm run lint
 ```
 
+# 🥃 목차
+- [프로젝트 개발 환경](#-프로젝트-개발-환경)
+- [프로젝트 생성](#-프로젝트-생성)
+
 # 🍕 프로젝트 개발 환경
 
 - Node.js v18.14.0
@@ -88,15 +92,15 @@ yarn add -D @types/node
   - [X] 환경변수
   - [ ] Mock 테스트 환경
   - [ ] CORS (Cross-Origin Resource Sharing) 교차 출처 리소스 공유
-  - [ ] Log 출력
-  - [ ] devtool
-- [ ] 디렉토리 구조
+  - [ ] 운영에서의 `console.log` 미출력
+  - [ ] Vue devtools 미표시
+- [X] 디렉토리 구조
 - [X] 코딩 컨벤션
 - [ ] 공통 처리
   - [ ] HTTP Headers
   - [ ] API 호출
     - [ ] 멀티 서버 접속
-    - [ ] 에러 코드 관리
+    - [ ] 에러 Enum(코드) 관리
   - [ ] API 에러 핸들러
   - [ ] 입력 데이터 검증
   - [ ] 날짜 처리
@@ -105,11 +109,11 @@ yarn add -D @types/node
   - [ ] Dialog(대화상자) modal
   - [X] 데이터 표시 서식
   - [ ] 권한 관리(메뉴, 컨텐츠, 버튼, 라우트 등)
-  - [ ] 다국어
+  - [ ] 다국어 (i18n)
 - [ ] 전역 메시지(코드) 관리
   - [ ] Front-end
   - [ ] Back-end
-- [ ] 전역 상수(코드) 관리
+- [ ] 전역 Enum(코드) 관리
   - [ ] Front-end
   - [ ] Back-end
 - [ ] 웹 스토리지(`sessionStorage` 또는 `localStorage`)
@@ -180,22 +184,40 @@ yarn add lodash
 
 # 🍿 디렉토리 구조
 
+```
++-- api (Server API 호출)
++-- mock (테스트 API) 
+|   +-- data (테스트 데이터)
++-- router (Vue-router)
+|   +-- routes
++-- store (Pinia)
++-- plugins
+|   +-- api (Server API 호출 인스턴스)
+|   +-- validations (입력 데이터 검증)
+|   +-- formatters.js (데이터 표시 서식)
++-- views (화면 Vue 컴포넌트)
+|   +-- components
+|   +-- pages
+```
+# 🍗 Docker & Jenkins
+
 # 🥩 개발 가이드 라인
 
-## Axios API 호출
+## 🔸 Axios API 호출
 
-## Mock 테스트 데이터
+## 🔸 Mock 테스트 데이터
 
-## Vue-router
+## 🔸 Vue-router
 - 참조문서: https://router.vuejs.org/
 
-## Pinia Store 관리
+## 🔸 Pinia Store 관리
 - 참조문서: https://pinia.vuejs.org/
 
-## Vee-validate 입력 데이터 검증
+## 🔸 Vee-validate 입력 데이터 검증
 - 참조문서: https://vee-validate.logaretm.com/v4/
+- IME(한글 키보드)와 `v-model`과의 관계로 `input` 이벤트 검토 (참조문서: https://vuejs.org/guide/essentials/forms.html#text)
 
-## 데이터 표시 서식
+## 🔸 데이터 표시 서식
 - `formatters.js` 를 `import`하여 사용
 - 사양에 맞게 함수를 추가
 
@@ -209,4 +231,10 @@ import { formatSimpleDate } from '@/plugins/formatters'
 </template>
 ```
 
-## @casl/ability 권한 관리
+## 🔸 @casl/ability 권한 관리
+
+## 🔸 전역 Enum 선언
+
+## 🔸 초기상태, 요청중, 완료, 실패
+
+## 🔸 Web storage 사용
