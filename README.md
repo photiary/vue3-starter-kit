@@ -40,8 +40,15 @@ npm run test:unit
 npm run lint
 ```
 
+# 🍕 프로젝트 개발 환경
+
+- Node.js v18.14.0
+- Vue3
+
 # 🍔 프로젝트 생성
-- 참조 문서: https://vuejs.org/guide/quick-start.html
+- Vue3 프로젝트 생성 참조문서: https://vuejs.org/guide/quick-start.html
+- Vite 참조문서: https://vitejs.dev/guide/
+- Vite Browser Compatibility 참조문서: https://vitejs.dev/guide/build.html
 
 ```shell
 npm init vue@latest
@@ -67,19 +74,21 @@ cd vue3-starter-kit
 yarn install
 npm run dev
 
-# Unresolved variable or type module 해결하기 위해 설치
+# IDE에 Unresolved variable or type module 경고가 표시될 경우 설치
 yarn add -D @types/node
 ```
 
 # 🥡 체크 리스트
-- [X] 사용 서버, 라이브러리등 프로젝트 설계에 맞는 버전 구성
-- [X] 형상관리
-- [ ] CI/CD 환경 구성 선택
+- [X] 사용 서버, 라이브러리, 클아이언트 브라우저 버전등 프로젝트 설계에 맞는 버전 구성
+- [X] CI/CD 환경 구성 선택
+  - [X] Git
+  - [X] Jenkins
+  - [ ] Docker
 - [ ] 개발(로컬, 서버), 운영 환경 분리
   - [ ] 환경변수
   - [ ] Mock 테스트 환경
-  - [ ] CORS
-  - [ ] Log
+  - [ ] CORS (Cross-Origin Resource Sharing) 교차 출처 리소스 공유
+  - [ ] Log 출력
   - [ ] devtool
 - [ ] 디렉토리 구조
 - [X] 코딩 컨벤션
@@ -87,14 +96,16 @@ yarn add -D @types/node
   - [ ] HTTP Headers
   - [ ] API 호출
     - [ ] 멀티 서버 접속
+    - [ ] 에러 코드 관리
   - [ ] API 에러 핸들러
   - [ ] 입력 데이터 검증
   - [ ] 날짜 처리
   - [ ] 초기 상태, 요청 중, 완료, 실패
   - [ ] 화면 Layout
   - [ ] Dialog(대화상자) modal
-  - [ ] 데이터 표시 서식
+  - [X] 데이터 표시 서식
   - [ ] 권한 관리(메뉴, 컨텐츠, 버튼, 라우트 등)
+  - [ ] 다국어
 - [ ] 전역 메시지(코드) 관리
   - [ ] Front-end
   - [ ] Back-end
@@ -170,6 +181,10 @@ yarn add lodash
 # 🍿 디렉토리 구조
 
 # 🥩 개발 가이드 라인
+
+## Axios API 호출
+
+## Mock 테스트 데이터
 
 ## Vue-router
 - 참조문서: https://router.vuejs.org/
