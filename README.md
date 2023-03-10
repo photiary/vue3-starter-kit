@@ -102,7 +102,7 @@ yarn add -D @types/node
     - [ ] 멀티 서버 접속
     - [ ] 에러 Enum(코드) 관리
   - [ ] API 에러 핸들러
-  - [ ] 입력 데이터 검증
+  - [X] 입력 데이터 검증
   - [ ] 날짜 처리
   - [ ] 초기 상태, 요청 중, 완료, 실패
   - [ ] 화면 Layout
@@ -110,6 +110,8 @@ yarn add -D @types/node
   - [X] 데이터 표시 서식
   - [ ] 권한 관리(메뉴, 컨텐츠, 버튼, 라우트 등)
   - [ ] 다국어 (i18n)
+  - [ ] 로케일
+  - [ ] 달력
 - [ ] 전역 메시지(코드) 관리
   - [ ] Front-end
   - [ ] Back-end
@@ -118,10 +120,11 @@ yarn add -D @types/node
   - [ ] Back-end
 - [ ] 웹 스토리지(`sessionStorage` 또는 `localStorage`)
   - [ ] 개인정보 및 접속 토큰 저장
+- [ ] 단어집
 
 # 🍟 코딩 컨벤션 도구
-- 참조문서: https://eslint.vuejs.org/user-guide/npm
-- 참조문서: https://prettier.io/docs/en/install.html
+- 참조문서: https://eslint.vuejs.org/user-guide/
+- 참조문서: https://prettier.io/docs/en/index.html
 
 `.eslintrc.cjs` 파일에 `rules` 추가
 
@@ -168,6 +171,9 @@ module.exports = {
 ```shell
 # 입력 데이터 검증
 yarn add vee-validate
+yarn add @vee-validate/rules
+yarn add @vee-validate/i18n
+
 yarn add axios
 yarn add axios-mock-adapter
 
@@ -184,6 +190,8 @@ yarn add lodash
 
 # 🍿 디렉토리 구조
 
+## 주요 디렉토리
+
 ```
 +-- api (Server API 호출)
 +-- mock (테스트 API) 
@@ -199,6 +207,26 @@ yarn add lodash
 |   +-- components
 |   +-- pages
 ```
+
+## 불필요 리소스
+
+프로젝트 생성시 디폴트 리소스는 참고용으로 개발 시작시 제거 또는 수정해서 사용한다.
+
+```
++-- components
+|   +-- __tests__
+|   +-- icons
+|   +-- HelloWorld.vue
+|   +-- TheWelcome.vue
+|   +-- WelcomeItem.vue
++-- stores
+|   +-- counter.js
++-- views
+|   +-- AboutView.vue
+|   +-- GuidelineView.vue
+|   +-- HomeView.vue
+```
+
 # 🍗 Docker & Jenkins
 
 # 🥩 개발 가이드 라인
@@ -215,7 +243,47 @@ yarn add lodash
 
 ## 🔸 Vee-validate 입력 데이터 검증
 - 참조문서: https://vee-validate.logaretm.com/v4/
-- IME(한글 키보드)와 `v-model`과의 관계로 `input` 이벤트 검토 (참조문서: https://vuejs.org/guide/essentials/forms.html#text)
+- IME(한글 키보드)와 `v-model`과의 관계로 상황에 맞게 `input` 이벤트 사용 (참조문서: https://vuejs.org/guide/essentials/forms.html#text)
+
+Vue에서 입력 데이터 검증
+```vue
+<script setup>
+const email = ref('')
+</script>
+<template>
+  <Field
+    name="이메일"
+    rules="required|email"
+    :value="email"
+    @input="event => (email = event.target.value)"
+    v-slot="{ field, errorMessage }">
+    <input
+      type="text"
+      id="email"
+      v-bind="field" />
+    <span>{{ errorMessage }}</span>
+  </Field>
+</template>
+```
+
+사용자 지정 검증 추가
+
+- `validators.js`에서 검증 처리를 추가
+- `rules.js`에서 추가한 검증과 다국어 메시지를 Vee-validate에 적용
+
+```javascript
+defineRule('password', value => {
+  if (!value || !value.length) {
+    return true
+  }
+  return validators.validatePassword(value)
+})
+
+const koDefineRuleMessages = {
+  password:
+    '... 한글 검증 메시지 ...',
+}
+```
 
 ## 🔸 데이터 표시 서식
 - `formatters.js` 를 `import`하여 사용
