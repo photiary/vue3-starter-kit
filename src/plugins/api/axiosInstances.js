@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import authConstants from '@/plugins/api/authConstants'
 import errorHandlers from '@/plugins/api/errorHandlers'
+import { isLogin, getAuthLocalStorage } from '@/plugins/authHelper'
 
 /**
  * 디폴트 Headers를 갖는 Axios instance를 생성한다.
@@ -75,13 +76,12 @@ function createBearerTokenInstance() {
     function (config) {
       // 요청이 전달되기 전에 작업 수행
       console.log(
-        'axiosInstances.createBearerTokenInstance.interceptors.request'
+        'axiosInstances.createBearerTokenInstance.interceptors.request isLogin',
+        isLogin()
       )
-      // TODO 로그인 판정
-      const isLogin = true
-      if (isLogin) {
-        const auth = JSON.parse(localStorage.getItem('auth'))
-        config.headers.Authorization = `Bearer ${auth?.accessToken}`
+      if (isLogin()) {
+        const auth = getAuthLocalStorage()
+        config.headers.Authorization = `Bearer ${auth?.access_token}`
       } else {
         // TODO 로그인 화면으로 이동
       }

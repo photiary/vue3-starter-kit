@@ -35,10 +35,14 @@ function init() {
     }
   })
   mockAdapters.bearerTokenClient.onGet('/account').reply(config => {
+    console.log('accountData. /account config:', config)
     // 주석을 제거해서 응답 에러 테스트를 진행한다.
-    return [200, data.account]
-    // return [401, apiErrorData.UNAUTHORIZED]
-    // return [404, apiErrorData.NOT_FOUND_ACCOUNT]
+    if (config.headers.Authorization) {
+      return [200, data.account]
+      // return [404, apiErrorData.NOT_FOUND_ACCOUNT]
+    } else {
+      return [401, apiErrorData.UNAUTHORIZED]
+    }
   })
 }
 

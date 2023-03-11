@@ -97,10 +97,10 @@ yarn add -D @types/node
 - [X] 디렉토리 구조
 - [X] 코딩 컨벤션
 - [ ] 공통 처리
-  - [ ] HTTP Headers
+  - [X] HTTP Headers
   - [ ] API 호출
     - [ ] 멀티 서버 접속
-    - [ ] 에러 코드 Enum 관리
+    - [X] 에러 코드 Enum 관리
   - [ ] API 에러 핸들러
   - [X] 입력 데이터 검증
   - [ ] 날짜 처리
@@ -119,7 +119,8 @@ yarn add -D @types/node
   - [ ] Front-end
   - [ ] Back-end
 - [ ] 웹 스토리지(`sessionStorage` 또는 `localStorage`)
-  - [ ] 개인정보 및 접속 토큰 저장
+  - [X] 접속 토큰 저장
+  - [ ] 개인 정보 저장
 - [ ] 단어집
 
 # 🍟 코딩 컨벤션 도구
@@ -234,6 +235,28 @@ yarn add lodash
 ## 🔸 Axios API 호출
 
 ## 🔸 Mock 테스트 데이터
+- ~Data.js에서 사용하는 Mock adapter는 ~Api.js 에서 사용하는 같은 Axios instance를 사용한다.
+
+```javascript
+import mockAdapters from '@/mock/mockAdapters'
+
+// 테스트 데이터를 추가한다.
+const data = {
+  info: {
+    name: '더미'
+  }
+}
+
+// 테스트 엔드포인트를 추가한다.
+function init() {
+  // axiosInstance를 basicAuthClient로 사용할 경우
+  mockAdapters.basicAuthClient.onGet('/dummy').reply(() => [200, data.info])
+  // axiosInstance를 bearerTokenClient로 사용할 경우
+  mockAdapters.bearerTokenClient.onGet('/info').reply(() => [200, data.info])
+}
+
+export default { init }
+```
 
 ## 🔸 Vue-router
 - 참조문서: https://router.vuejs.org/
@@ -246,23 +269,23 @@ yarn add lodash
 - IME(한글 키보드)와 `v-model`과의 관계로 상황에 맞게 `input` 이벤트 사용 (참조문서: https://vuejs.org/guide/essentials/forms.html#text)
 
 Vue에서 입력 데이터 검증
+- `useForm()`을 실행해야 `useIsFieldDirty`, `useIsFieldValid`를 사용할 수 있다.
+- `useIsDisabledByField`를 이용하여 버튼을 비활성할 수 있다.
+
 ```vue
 <script setup>
-const email = ref('')
+import { useForm, useField } from 'vee-validate'
+useForm()
+const { value: email, errorMessage: emailError } = useField('email', 'required|email')
 </script>
 <template>
-  <Field
-    name="이메일"
-    rules="required|email"
+  <label for="email">이메일:</label>
+  <input
+    type="text"
+    id="email"
     :value="email"
-    @input="event => (email = event.target.value)"
-    v-slot="{ field, errorMessage }">
-    <input
-      type="text"
-      id="email"
-      v-bind="field" />
-    <span>{{ errorMessage }}</span>
-  </Field>
+    @input="event => (email = event.target.value)" />
+  <span>{{ emailError }}</span>
 </template>
 ```
 
@@ -283,6 +306,11 @@ const koDefineRuleMessages = {
   password:
     '... 한글 검증 메시지 ...',
 }
+const koNames = {
+  names: {
+    password: '비밀번호',
+  }
+}
 ```
 
 ## 🔸 데이터 표시 서식
@@ -302,6 +330,14 @@ import { formatSimpleDate } from '@/plugins/formatters'
 ## 🔸 @casl/ability 권한 관리
 
 ## 🔸 전역 Enum 선언
+- 전역 상수 선언은 각 모듈과 같은 디렉토리에 파일을 생성한다.
+- named export를 이용하여 내보내기를 한다.
+
+```javascript
+export const API_ERROR = Object.freeze({
+  UNAUTHORIZED: '0001' // 인증에 실패했습니다.
+})
+```
 
 ## 🔸 초기상태, 요청중, 완료, 실패
 
