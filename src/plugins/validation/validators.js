@@ -4,11 +4,9 @@ const REG_EXP_PASSWORD = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}/
 const REG_EXP_MOBILE_PHONE = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/
 
 function validatePassword(value) {
-  console.log('validator.validatePassword value:', value)
   return REG_EXP_PASSWORD.test(value)
 }
 function validateMobilePhone(value) {
-  console.log('validator.validateMobilePhone value:', value)
   return REG_EXP_MOBILE_PHONE.test(value)
 }
 

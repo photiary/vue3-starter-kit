@@ -1,9 +1,9 @@
 import { API_ERROR } from '@/plugins/api/errorEnum'
 
 /**
- * API 응답 에러 공용 데이터로 다른 Mock data에서 참조하여 사용한다.
+ * API 응답 에러 공통 데이터로 다른 Mock data에서 참조하여 사용한다.
  */
-export const errorData = {
+export const apiErrorData = {
   UNAUTHORIZED: {
     code: API_ERROR.UNAUTHORIZED,
     message: '인증에 실패했습니다.'

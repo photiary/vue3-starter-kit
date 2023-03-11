@@ -1,5 +1,5 @@
 import mockAdapters from '@/mock/mockAdapters'
-import { errorData } from '@/mock/data/errorData'
+import { apiErrorData } from '@/mock/data/errorData'
 
 const data = {
   token: {
@@ -27,7 +27,6 @@ const data = {
 
 function init() {
   mockAdapters.basicAuthClient.onPost('/login').reply(config => {
-    console.log('authData.login config:', config)
     const reqBody = JSON.parse(config.data)
     if (
       data.account.id === reqBody.id &&
@@ -35,7 +34,7 @@ function init() {
     ) {
       return [200, data.token]
     } else {
-      return [401, errorData.UNAUTHORIZED]
+      return [401, apiErrorData.UNAUTHORIZED]
     }
   })
 }

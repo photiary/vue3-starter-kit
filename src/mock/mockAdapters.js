@@ -3,7 +3,7 @@ import AxiosMockAdapter from 'axios-mock-adapter'
 import axiosInstances from '@/plugins/api/axiosInstances'
 
 function createSimpleMock(axios) {
-  return new AxiosMockAdapter(axios, { delayResponse: 2000 })
+  return new AxiosMockAdapter(axios, { delayResponse: 0 })
 }
 
 let basicAuthClient = null

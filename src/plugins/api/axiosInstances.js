@@ -34,7 +34,7 @@ function createBasicAuthInstance() {
   axios.interceptors.request.use(
     function (config) {
       // 요청이 전달되기 전에 작업 수행
-      console.log('axiosInstances.createBasicAuthInstance')
+      console.log('axiosInstances.createBasicAuthInstance.interceptors.request')
       config.auth = authConstants.BASIC_AUTH_CONFIG
       return config
     },
@@ -74,9 +74,17 @@ function createBearerTokenInstance() {
   axios.interceptors.request.use(
     function (config) {
       // 요청이 전달되기 전에 작업 수행
-      console.log('axiosInstances.createBearerTokenInstance')
-      const auth = JSON.parse(localStorage.getItem('auth') || '{}')
-      config.headers.Authorization = `Bearer ${auth.accessToken}`
+      console.log(
+        'axiosInstances.createBearerTokenInstance.interceptors.request'
+      )
+      // TODO 로그인 판정
+      const isLogin = true
+      if (isLogin) {
+        const auth = JSON.parse(localStorage.getItem('auth'))
+        config.headers.Authorization = `Bearer ${auth?.accessToken}`
+      } else {
+        // TODO 로그인 화면으로 이동
+      }
       return config
     },
     function (error) {

@@ -38,13 +38,30 @@ const enDefineRuleMessages = {
     'The {field} field must be at least 8 characters with a combination of lowercase, lowercase and special characters',
   mobilePhone: 'The {field} field must be a mobile phone number without "-"'
 }
+const enNames = {
+  names: {
+    accountId: 'Account ID',
+    password: 'Password',
+    email: 'Email'
+  }
+}
 Object.assign(en.messages, enDefineRuleMessages)
+Object.assign(en, enNames)
+
 const koDefineRuleMessages = {
   password:
     '{field}는 숫자, 소문자, 대문자, 특수문자 조합으로 8자 이상이어야 합니다',
   mobilePhone: '{field}는 "-" 를 제외한 휴대전화 번호이어야 합니다'
 }
+const koNames = {
+  names: {
+    accountId: '계정 ID',
+    password: '비밀번호',
+    email: '이메일'
+  }
+}
 Object.assign(ko.messages, koDefineRuleMessages)
+Object.assign(ko, koNames)
 
 // 참조문서: https://vee-validate.logaretm.com/v4/guide/i18n/
 configure({
@@ -54,4 +71,4 @@ configure({
   })
 })
 
-setLocale('en')
+setLocale('ko')

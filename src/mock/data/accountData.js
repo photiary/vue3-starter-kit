@@ -1,5 +1,5 @@
 import mockAdapters from '@/mock/mockAdapters'
-import { errorData } from '@/mock/data/errorData'
+import { apiErrorData } from '@/mock/data/errorData'
 
 const data = {
   token: {
@@ -31,15 +31,14 @@ function init() {
     if (reqBody.id && reqBody.name && reqBody.password) {
       return [200, data.token]
     } else {
-      return [400, errorData.PARAMETER_REQUIRED]
+      return [400, apiErrorData.PARAMETER_REQUIRED]
     }
   })
   mockAdapters.bearerTokenClient.onGet('/account').reply(config => {
-    console.log('accountData.account config:', config)
     // 주석을 제거해서 응답 에러 테스트를 진행한다.
     return [200, data.account]
-    // return [401, errorData.UNAUTHORIZED]
-    // return [404, errorData.NOT_FOUND_ACCOUNT]
+    // return [401, apiErrorData.UNAUTHORIZED]
+    // return [404, apiErrorData.NOT_FOUND_ACCOUNT]
   })
 }
 
