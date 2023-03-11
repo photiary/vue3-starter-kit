@@ -100,7 +100,7 @@ yarn add -D @types/node
   - [ ] HTTP Headers
   - [ ] API 호출
     - [ ] 멀티 서버 접속
-    - [ ] 에러 Enum(코드) 관리
+    - [ ] 에러 코드 Enum 관리
   - [ ] API 에러 핸들러
   - [X] 입력 데이터 검증
   - [ ] 날짜 처리
@@ -112,10 +112,10 @@ yarn add -D @types/node
   - [ ] 다국어 (i18n)
   - [ ] 로케일
   - [ ] 달력
-- [ ] 전역 메시지(코드) 관리
+- [ ] 전역 메시지 Enum 관리
   - [ ] Front-end
   - [ ] Back-end
-- [ ] 전역 Enum(코드) 관리
+- [ ] 전역 코드 Enum 관리
   - [ ] Front-end
   - [ ] Back-end
 - [ ] 웹 스토리지(`sessionStorage` 또는 `localStorage`)
@@ -200,7 +200,7 @@ yarn add lodash
 |   +-- routes
 +-- store (Pinia)
 +-- plugins
-|   +-- api (Server API 호출 인스턴스)
+|   +-- api (Axios)
 |   +-- validations (입력 데이터 검증)
 |   +-- formatters.js (데이터 표시 서식)
 +-- views (화면 Vue 컴포넌트)
