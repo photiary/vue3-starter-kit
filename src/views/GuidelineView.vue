@@ -1,17 +1,25 @@
 <script setup>
 import { ref } from 'vue'
 import { formatSimpleDate } from '@/plugins/formatters'
-import { Field } from 'vee-validate'
-
 import accountApi from '@/api/accountApi'
 import authApi from '@/api/authApi'
 
 const loading = ref(true)
-const accountId = ref('')
-const email = ref('')
-const password = ref('')
 const account = ref(null)
 const responseMessage = ref('')
+
+// ----------------------------------------------------------------------------
+// API 호출
+// ----------------------------------------------------------------------------
+const login = async () => {
+  try {
+    const resToken = await authApi.login(accountId.value, password.value)
+    console.log('Login.vue.login resToken:', resToken)
+  } catch (error) {
+    console.log('GuidelineView.login error:', error)
+    responseMessage.value = error.response.data.message
+  }
+}
 
 const fetchAccount = async () => {
   try {
@@ -27,15 +35,23 @@ const fetchAccount = async () => {
 }
 fetchAccount()
 
-const login = async () => {
-  try {
-    const resToken = await authApi.login(accountId.value, password.value)
-    console.log('Login.vue.login resToken:', resToken)
-  } catch (error) {
-    console.log('GuidelineView.login error:', error)
-    responseMessage.value = error.response.data.message
-  }
-}
+// ----------------------------------------------------------------------------
+// 입력 데이터 검증
+// ----------------------------------------------------------------------------
+import { useForm, useField } from 'vee-validate'
+import { useIsDisabledByField } from '@/plugins/validation/helper'
+// useIsFieldDirty, useIsFieldValid를 사용하기 위해서 useForm() 실행한다.
+useForm()
+const { value: accountId, errorMessage: accountIdError } = useField(
+  'accountId',
+  'required'
+)
+const { value: email, errorMessage: emailError } = useField('email', 'email')
+const { value: password, errorMessage: passwordError } = useField(
+  'password',
+  'required|password'
+)
+const isDisabled = useIsDisabledByField('accountId', 'email', 'password')
 </script>
 
 <template>
@@ -45,50 +61,33 @@ const login = async () => {
     <div v-else>
       <div>
         <label for="accountId">계정 ID:</label>
-        <Field
-          name="accountId"
-          rules="required"
+        <input
+          type="text"
+          id="accountId"
           :value="accountId"
-          @input="event => (accountId = event.target.value)"
-          v-slot="{ field, errorMessage }">
-          <input
-            type="text"
-            id="accountId"
-            v-bind="field" />
-          <span>{{ errorMessage }}</span>
-        </Field>
+          @input="event => (accountId = event.target.value)" />
+        <span>{{ accountIdError }}</span>
         <br />
         <label for="email">이메일:</label>
-        <Field
-          name="email"
-          rules="required|email"
+        <input
+          type="text"
+          id="email"
           :value="email"
-          @input="event => (email = event.target.value)"
-          v-slot="{ field, errorMessage }">
-          <input
-            type="text"
-            id="email"
-            v-bind="field" />
-          <span>{{ errorMessage }}</span>
-        </Field>
+          @input="event => (email = event.target.value)" />
+        <span>{{ emailError }}</span>
         <br />
         <label for="password">암호:</label>
-        <Field
-          name="password"
-          rules="password"
+        <input
+          type="password"
+          id="password"
           :value="password"
-          @input="event => (password = event.target.value)"
-          v-slot="{ field, errorMessage }">
-          <input
-            type="password"
-            id="password"
-            v-bind="field" />
-          <span>{{ errorMessage }}</span>
-        </Field>
+          @input="event => (password = event.target.value)" />
+        <span>{{ passwordError }}</span>
         <br />
         <button
           type="button"
-          @click="login">
+          @click="login"
+          :disabled="isDisabled">
           로그인
         </button>
       </div>
