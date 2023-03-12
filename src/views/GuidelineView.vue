@@ -39,22 +39,15 @@ const fetchAccount = async () => {
 // ----------------------------------------------------------------------------
 // 입력 데이터 검증
 // ----------------------------------------------------------------------------
-import { useForm, useField } from 'vee-validate'
+import { Field, useForm } from 'vee-validate'
 import { useIsDisabledByField } from '@/plugins/validation/helper'
 // useIsFieldDirty, useIsFieldValid를 사용하기 위해서 useForm() 실행한다.
-useForm({
-  initialValues: { accountId: 'dummy', password: 'Dummy12!@' }
-})
-const { value: accountId, errorMessage: accountIdError } = useField(
-  'accountId',
-  'required'
-)
-const { value: email, errorMessage: emailError } = useField('email', 'email')
-const { value: password, errorMessage: passwordError } = useField(
-  'password',
-  'required|password'
-)
-const isDisabled = !useIsDisabledByField('accountId', 'email', 'password')
+useForm()
+const accountId = ref('dummy')
+const email = ref('')
+const password = ref('Dummy12!@')
+
+const isDisabled = useIsDisabledByField('accountId', 'email', 'password')
 </script>
 
 <template>
@@ -62,28 +55,46 @@ const isDisabled = !useIsDisabledByField('accountId', 'email', 'password')
     <h1>Guideline page</h1>
     <div>
       <label for="accountId">계정 ID:</label>
-      <input
-        type="text"
-        id="accountId"
+      <Field
+        name="accountId"
+        rules="required"
         :value="accountId"
-        @input="event => (accountId = event.target.value)" />
-      <span>{{ accountIdError }}</span>
+        @input="event => (accountId = event.target.value)"
+        v-slot="{ field, errorMessage }">
+        <input
+          type="text"
+          id="accountId"
+          v-bind="field" />
+        <span>{{ errorMessage }}</span>
+      </Field>
       <br />
       <label for="email">이메일:</label>
-      <input
-        type="text"
-        id="email"
+      <Field
+        name="email"
+        rules="email"
         :value="email"
-        @input="event => (email = event.target.value)" />
-      <span>{{ emailError }}</span>
+        @input="event => (email = event.target.value)"
+        v-slot="{ field, errorMessage }">
+        <input
+          type="text"
+          id="email"
+          v-bind="field" />
+        <span>{{ errorMessage }}</span>
+      </Field>
       <br />
       <label for="password">암호:</label>
-      <input
-        type="password"
-        id="password"
+      <Field
+        name="password"
+        rules="required|password"
         :value="password"
-        @input="event => (password = event.target.value)" />
-      <span>{{ passwordError }}</span>
+        @input="event => (password = event.target.value)"
+        v-slot="{ field, errorMessage }">
+        <input
+          type="password"
+          id="password"
+          v-bind="field" />
+        <span>{{ errorMessage }}</span>
+      </Field>
       <br />
       <button
         type="button"

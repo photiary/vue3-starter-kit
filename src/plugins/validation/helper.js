@@ -1,20 +1,14 @@
 import { computed } from 'vue'
-import {
-  useIsFieldDirty,
-  useIsFieldValid,
-  useIsFormDirty,
-  useIsFormValid
-} from 'vee-validate'
+import { useIsFieldValid, useIsFormValid } from 'vee-validate'
 
 /**
  * 필드의 검증 결과에 따라 버튼의 활성화 여부를 판단한다.
  * @returns {*} true: Form 내부의 필드 하나라도 검증을 통과하지 못한 경우, false: Form 내부의 모든 필드가 검증을 통과한 경우
  */
 export function useIsDisabledByForm() {
-  const isDirty = useIsFormDirty()
   const isValid = useIsFormValid()
   return computed(() => {
-    return !isDirty.value || !isValid.value
+    return !isValid.value
   })
 }
 
@@ -26,9 +20,8 @@ export function useIsDisabledByForm() {
 export function useIsDisabledByField(...name) {
   return computed(() => {
     const disabledPath = name.find(name => {
-      const isDirty = useIsFieldDirty(name)
       const isValid = useIsFieldValid(name)
-      return !isDirty.value || !isValid.value
+      return !isValid.value
     })
     return disabledPath ? true : false
   })
