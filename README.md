@@ -187,6 +187,7 @@ yarn add @casl/ability
 yarn add @casl/vue
 # 다국어
 yarn add vue-i18n@9
+yarn add -D @intlify/vite-plugin-vue-i18n
 
 yarn add lodash
 ```
@@ -360,3 +361,20 @@ export const API_ERROR = Object.freeze({
 - 참조문서: https://vue-i18n.intlify.dev/guide/
 - `ko.json`, `en.json`에 라벨, 버튼, 메시지를 추가
 
+- 개발자 도구 콘솔에 다음과 같은 메시지를 해결하기위해 `@intlify/vite-plugin-vue-i18n`를 설치하고
+`vite.config.js`에 `plugins`을 추가한다.
+  > vue-i18n.esm-bundler.js:39 You are running the esm-bundler build of vue-i18n. It is recommended to configure your bundler to explicitly replace feature flag globals with boolean literals to get proper tree-shaking in the final bundle.
+```javascript
+import { resolve, dirname } from 'node:path'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
+
+plugins: [
+  vue(),
+  vueI18n({
+    include: resolve(
+      dirname(fileURLToPath(import.meta.url)),
+      './src/plugins/i18n/locales/*.json'
+    )
+  })
+]
+```
