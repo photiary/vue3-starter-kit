@@ -1,16 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { formatSimpleDate } from '@/plugins/formatters'
 import { setAuthLocalStorage } from '@/plugins/authHelper'
 import accountApi from '@/api/accountApi'
 import authApi from '@/api/authApi'
+import { useI18n } from 'vue-i18n'
+import { setLocale } from '@vee-validate/i18n'
 
 const loading = ref(false)
 const account = ref(null)
 const responseMessage = ref('')
 
 // ----------------------------------------------------------------------------
-// API 호출
+// 이벤트(Events) (반응적인 이벤트에 의해 실행되는 콜백을 지정하는 옵션)
+// ----------------------------------------------------------------------------
+const { locale } = useI18n()
+watch(locale, () => {
+  setLocale(locale.value)
+})
+
+// ----------------------------------------------------------------------------
+// 비즈니스 로직
 // ----------------------------------------------------------------------------
 const login = async () => {
   try {
@@ -114,6 +124,18 @@ const isDisabled = useIsDisabledByField('accountId', 'email', 'password')
       <div>날짜: {{ formatSimpleDate(account?.createAt) }}</div>
     </div>
     <div>응답메시지: {{ responseMessage }}</div>
+    <div>
+      다국어:
+      <select v-model="$i18n.locale">
+        <option
+          v-for="locale in $i18n.availableLocales"
+          :key="`locale-${locale}`"
+          :value="locale">
+          {{ locale }}
+        </option>
+      </select>
+      {{ $t('message.hello', ['hello']) }}
+    </div>
   </div>
 </template>
 

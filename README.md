@@ -185,6 +185,8 @@ yarn add dayjs
 # 권한 관리
 yarn add @casl/ability
 yarn add @casl/vue
+# 다국어
+yarn add vue-i18n@9
 
 yarn add lodash
 ```
@@ -203,6 +205,7 @@ yarn add lodash
 +-- store (Pinia)
 +-- plugins
 |   +-- api (Axios)
+|   +-- i18n (다국어)
 |   +-- validations (입력 데이터 검증)
 |   +-- formatters.js (데이터 표시 서식)
 +-- views (화면 Vue 컴포넌트)
@@ -352,3 +355,8 @@ export const API_ERROR = Object.freeze({
 메시지를 표시할 경우는 에러코드를 사용하되 서버에서 응답 받은 메시지는 사용하지 않는다. 
 
 ## 🔸 Web storage 사용
+
+## 🔸 다국어
+- 참조문서: https://vue-i18n.intlify.dev/guide/
+- `ko.json`, `en.json`에 라벨, 버튼, 메시지를 추가
+
